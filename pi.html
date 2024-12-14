@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Owner Side Interface</title>
+
+  <!-- Link to External CSS -->
+  <link rel="stylesheet" href="DigitalCss.css">
+
+
+  <!-- Web3.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Owner Interface</h1>
+    <div class="form-group">
+      <label for="image">Upload Image:</label>
+      <input type="file" id="image" accept="image/*">
+    </div>
+    <div class="form-group">
+      <label for="privateKey">Enter Private Key:</label>
+      <input type="text" id="privateKey" placeholder="Enter your private key">
+    </div>
+    <div class="form-group">
+      <button id="signButton">Sign Data</button>
+    </div>
+    <div class="form-group">
+      <button id="uploadButton" disabled>Upload to Contract</button>
+    </div>
+  </div>
+
+  <script>
+    const signButton = document.getElementById('signButton');
+    const uploadButton = document.getElementById('uploadButton');
+    let signedData = null;
+    let imageData = null;
+
+    // Handle Image Upload
+    document.getElementById('image').addEventListener('change', async (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          imageData = e.target.result; // Base64 image data
+          console.log('Image uploaded:', imageData);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Sign Data
+    signButton.addEventListener('click', async () => {
+      const privateKey = document.getElementById('privateKey').value;
+      if (!privateKey) {
+        alert('Please enter your private key.');
+        return;
+      }
+      if (!imageData) {
+        alert('Please upload an image first.');
+        return;
+      }
+
+      try {
+        const web3 = new Web3();
+        const dataToSign = web3.utils.keccak256(imageData); // Hash the image data
+        signedData = web3.eth.accounts.sign(dataToSign, privateKey);
+        console.log('Signed Data:', signedData);
+
+        alert('Data signed successfully!');
+        uploadButton.disabled = false;
+      } catch (error) {
+        console.error('Error signing data:', error);
+        alert('Error signing data. Check console for details.');
+      }
+    });
+
+    // Upload to Contract
+    uploadButton.addEventListener('click', async () => {
+      if (!signedData) {
+        alert('Please sign the data first.');
+        return;
+      }
+
+      try {
+        // Simulate contract upload (replace with actual contract call)
+        console.log('Uploading to contract...');
+        console.log('Image Data:', imageData);
+        console.log('Signature:', signedData.signature);
+
+        alert('Data uploaded to contract successfully!');
+      } catch (error) {
+        console.error('Error uploading to contract:', error);
+        alert('Error uploading to contract. Check console for details.');
+      }
+    });
+  </script>
+</body>
+</html>

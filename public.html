@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Public Interface</title>
+
+  <!-- Link to External CSS -->
+  <link rel="stylesheet" href="pubdesign.css">
+  <!-- Web3.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Public Interface</h1>
+    <div class="form-group">
+      <label for="image">Upload Image:</label>
+      <input type="file" id="image" accept="image/*">
+    </div>
+    <div class="form-group">
+      <label for="signature">Enter Signature:</label>
+      <input type="text" id="signature" placeholder="Enter the digital signature">
+    </div>
+    <div class="form-group">
+      <label for="publicKey">Enter Public Key:</label>
+      <input type="text" id="publicKey" placeholder="Enter the public key">
+    </div>
+    <div class="form-group">
+      <button id="verifyButton">Verify Ownership</button>
+    </div>
+    <div id="verificationResult" class="result"></div>
+  </div>
+
+  <script>
+    const verifyButton = document.getElementById('verifyButton');
+    const verificationResult = document.getElementById('verificationResult');
+    let uploadedImageHash = null;
+
+    // Handle Image Upload
+    document.getElementById('image').addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const web3 = new Web3();
+          uploadedImageHash = web3.utils.keccak256(e.target.result); // Hash the image data
+          console.log('Image hash:', uploadedImageHash);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Verify Ownership
+    verifyButton.addEventListener('click', () => {
+      const signature = document.getElementById('signature').value;
+      const publicKey = document.getElementById('publicKey').value;
+
+      if (!uploadedImageHash) {
+        alert('Please upload an image.');
+        return;
+      }
+      if (!signature || !publicKey) {
+        alert('Please enter both the signature and public key.');
+        return;
+      }
+
+      try {
+        const web3 = new Web3();
+        const recoveredAddress = web3.eth.accounts.recover(uploadedImageHash, signature);
+        const expectedAddress = web3.eth.accounts.privateKeyToAccount(publicKey).address;
+
+        if (recoveredAddress === expectedAddress) {
+          verificationResult.innerHTML = '<p style="color:green;">Ownership Verified: The signature is valid.</p>';
+        } else {
+          verificationResult.innerHTML = '<p style="color:red;">Verification Failed: The signature does not match the public key.</p>';
+        }
+      } catch (error) {
+        console.error('Error verifying signature:', error);
+        verificationResult.innerHTML = '<p style="color:red;">Error verifying the signature. Check console for details.</p>';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #121212, #1c1c24);
+  color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Container Styling */
+.container {
+  background: linear-gradient(135deg, #2a2a38, #1f1f29);
+  border-radius: 12px;
+  padding: 30px;
+  width: 100%;
+  max-width: 450px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.container:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8);
+}
+
+/* Header Styling */
+h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #ffd93d;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Form Group Styling */
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-group label {
+  font-weight: bold;
+  color: #f0f0f0;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background: #2a2a38;
+  color: #f0f0f0;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus {
+  border-color: #ffd93d;
+  box-shadow: 0 0 5px rgba(255, 217, 61, 0.5);
+}
+
+/* Button Styling */
+button {
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: linear-gradient(135deg, #ff6b6b, #ffd93d);
+  box-shadow: 0px 4px 10px rgba(255, 107, 107, 0.5);
+  transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #ffd93d, #ff6b6b);
+  transform: translateY(-3px);
+  box-shadow: 0px 6px 15px rgba(255, 107, 107, 0.8);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button:disabled {
+  background: #555;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Verification Result Styling */
+.result {
+  margin-top: 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.result p {
+  margin: 0;
+}
